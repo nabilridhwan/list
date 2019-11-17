@@ -1,0 +1,16 @@
+<body>
+        <script>
+            function authorise_user(client_id, redirect_uri, show_dialog, scope) {
+                let redirect_link = `https://accounts.spotify.com/authorize?client_id=${client_id}&response_type=token&redirect_uri=${redirect_uri}&show_dialog=${show_dialog}&scope=${scope}`
+                return redirect_link
+            }
+    
+            if (window.location.hash) {
+                let token = window.location.hash.substr(1).split("&")[0].split("=")[1];
+                window.location = `/update?token=${token}`
+            }else{
+                window.location = authorise_user("e172f1be70f64206a8b79f5e8a1f03df", "http://127.0.0.1:8080/update", true, "user-library-read")
+                console.log("Please Authenticate!")
+            }
+        </script>
+    </body>

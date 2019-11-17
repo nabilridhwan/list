@@ -18,6 +18,7 @@
   "homepage": "https://github.com/nabilridhwan/spotifier#readme",
   "dependencies": {
     "ejs": "^2.7.2",
-    "express": "^4.17.1"
+    "express": "^4.17.1",
+    "node-fetch": "^2.6.0"
   }
 }
