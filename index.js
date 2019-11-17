@@ -179,8 +179,8 @@ app.get("/api/view/all", (request, response) => {
 })
 
 if(process.env.IP && process.env.PORT){
-    app.listen(process.env.PORT, process.env.IP, () => {
-        console.log(`Listening on: ${process.env.IP}:${process.env.PORT}`)
+    app.listen(process.env.PORT, () => {
+        console.log(`Listening on server: ${process.env.IP}:${process.env.PORT}`)
     })
 }else{
     app.listen(8080, () => {
