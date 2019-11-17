@@ -9,7 +9,7 @@
                 let token = window.location.hash.substr(1).split("&")[0].split("=")[1];
                 window.location = `/update?token=${token}`
             }else{
-                window.location = authorise_user("e172f1be70f64206a8b79f5e8a1f03df", "http://127.0.0.1:8080/update", true, "user-library-read")
+                window.location = authorise_user("e172f1be70f64206a8b79f5e8a1f03df", "https://594e36cb-cf23-47d7-88c8-e6b13fd1f154-ide.cs50.xyz/update", true, "user-library-read")
                 console.log("Please Authenticate!")
             }
         </script>
