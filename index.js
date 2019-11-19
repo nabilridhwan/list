@@ -249,7 +249,11 @@ app.get('/user/:id', (request, response) => {
 
 })
 
-app.get("/api/view/all", (request, response) => {
+app.get('/faq', (request, response) => {
+    response.render('faq')
+})
+
+app.get("/api", (request, response) => {
     fs.readFile(__userdatadir, (err, data) => {
         response.send(JSON.parse(data));
     })

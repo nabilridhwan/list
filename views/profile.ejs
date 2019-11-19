@@ -6,7 +6,7 @@
 
     <% include ./partials/navbar %>
 
-    <section class="hero is-primary">
+    <section class="hero is-dark">
         <div class="hero-body">
             <div class="container is-fluid">
                 <h1 class="title">
@@ -17,7 +17,8 @@
                         href="/sign_in">Sign In!</a>
                 </h2>
 
-                <a class="button is-warning" href="<%=user["liked_songs"][Math.round(Math.random()*49)]["open_html_link"]%>" >
+                <a class="button is-primary"
+                    href="<%=user["liked_songs"][Math.round(Math.random()*49)]["open_html_link"]%>">
                     <strong>Pick a random song!</strong>
                 </a>
             </div>
@@ -25,11 +26,14 @@
     </section>
 
     <section class="section">
-                <div class="container is-fluid">
-                    <h1 class="title">Liked Songs</h1>
-                    <!-- Checking if empty or not -->
-                    <% if(user["liked_songs"].length !== 0){ %>
-                    <% user["liked_songs"].forEach(song => { %>
+        <div class="container is-fluid">
+            <h1 class="title">Liked Songs</h1>
+            <!-- Checking if empty or not -->
+            <% if(user["liked_songs"].length !== 0){ %>
+
+            <div class="columns is-multiline is-one-quater">
+                <% user["liked_songs"].forEach((song, n) => { %>
+                <div class="column is-half">
                     <article class="media">
                         <figure class="media-left">
                             <p class="image is-64x64">
@@ -40,7 +44,7 @@
                             <div class="content">
                                 <p>
                                     <strong><a href="<%= song['open_html_link'] %>"
-                                            target="_blank"><%= song['track_name'] %></a></strong>
+                                            target="_blank"><%= n+1 %> - <%= song['track_name'] %></a></strong>
                                     <br>
                                     By <%= song['track_artist_name'] %>
                                 </p>
@@ -48,13 +52,15 @@
 
                         </div>
                     </article>
-                    <% }) %>
+                </div>
+                <% }) %>
+            </div>
 
 
-                    <% }else{ %>
-                    <h1><%=user["name"]%>'s Profile</h1>
-                    <p><%=user["name"]%> has no liked songs as of now :(</p>
-                    <% } %>
+            <% }else{ %>
+            <h1><%=user["name"]%>'s Profile</h1>
+            <p><%=user["name"]%> has no liked songs as of now :(</p>
+            <% } %>
         </div>
     </section>
 
