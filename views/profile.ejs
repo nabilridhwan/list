@@ -33,11 +33,9 @@
                 <div class="media-content">
                     <div class="content">
                         <p>
-                            <strong><%= song['track_name'] %></strong>
+                            <strong><a href="<%= song['open_html_link'] %>" target="_blank"><%= song['track_name'] %></a></strong>
                             <br>
                             By <%= song['track_artist_name'] %>
-                            <br>
-                            <a href="<%= song['open_html_link'] %>" target="_blank">Open In Spotify</a>
                         </p>
                     </div>
 
