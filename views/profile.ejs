@@ -1,0 +1,56 @@
+<head>
+    <% include ./partials/styles %>
+</head>
+
+<body>
+
+    <% include ./partials/navbar %>
+
+    <section class="hero is-primary">
+        <div class="hero-body">
+            <div class="container">
+                <h1 class="title">
+                    <%=user["name"]%>'s favourite songs
+                </h1>
+                <h2 class="subtitle">
+                    This profile's User ID is <strong><%=user["id"]%></strong>
+                </h2>
+            </div>
+        </div>
+    </section>
+
+    <section class="section">
+        <div class="container is-fluid">
+            <!-- Checking if empty or not -->
+            <% if(user["liked_songs"].length !== 0){ %>
+            <% user["liked_songs"].forEach(song => { %>
+            <article class="media">
+                <figure class="media-left">
+                    <p class="image is-64x64">
+                        <img src="<%= song['album_image'] %>">
+                    </p>
+                </figure>
+                <div class="media-content">
+                    <div class="content">
+                        <p>
+                            <strong><%= song['track_name'] %></strong>
+                            <br>
+                            By <%= song['track_artist_name'] %>
+                            <br>
+                            <a href="<%= song['open_html_link'] %>">Open In Spotify</a>
+                        </p>
+                    </div>
+
+                </div>
+            </article>
+            <% }) %>
+
+
+            <% }else{ %>
+            <h1><%=user["name"]%>'s Profile</h1>
+            <% include ./partials/update_signup_a %>
+            <p><%=user["name"]%> has no liked songs as of now :(</p>
+            <% } %>
+        </div>
+    </section>
+</body>

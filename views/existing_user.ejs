@@ -1,0 +1,13 @@
+<head>
+    <% include ./partials/styles %>
+</head>
+
+<body>
+    <% include ./partials/navbar %>
+
+
+    <div class="container is-fluid">
+        <h1 class="title">It seems that you already have an account!</h1>
+        <p><a class="button is-primary" href="/user/<%= user['id'] %>">View my List!</a></p>
+    </div>
+</body>

@@ -3,22 +3,34 @@
 </head>
 
 <body>
-    <h1>Welcome to Spotifier</h1>
 
-    <a href="/sign_up">Sign Up and let my friends see my favourite list!</a>
-
-    <br>
-    <br>
-
-    <h2>View some user's favourite songs!</h2>
-    <ol>
-        <% users.forEach((user) => { %>
-        <li><a href="/user/<%=user['id']%>"><%= user["name"] %>'s favourite songs</a></li>
-        <% }) %>
-        </ol>
+    <% include ./partials/navbar %>
 
 
-    <h6>By using this service, you agree to the <a href="/privacypolicy">privacy policy</a>!</h6>
+    <section class="hero is-primary is-fullheight-with-navbar">
+        <div class="hero-body">
+            <div class="container">
+                <h1 class="title">
+                    Spotifier (Open Beta)
+                </h1>
+                <h2 class="subtitle">
+                    Welcome to Spotifier's open beta. A social media focused on sharing your Spotify's liked songs!
+                </h2>
+
+                <div class="columns">
+
+                    <div class="column">
+                        <input class="input" type="text" placeholder="User ID" id="user_id_input">
+                    </div>
+
+                    <div class="column">
+                        <button class="button is-dark">See Their Favourite Songs!</button>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </section>
 
     <script>
         function authorise_user(client_id, redirect_uri, show_dialog, scope) {

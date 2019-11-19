@@ -8,22 +8,18 @@ const __userdatadir = "./users_data.json"
 app.set('view engine', 'ejs');
 
 app.get('/', (request, response) => {
-    fs.readFile(__userdatadir, (err, data) => {
-        response.render('index', {
-            users: JSON.parse(data)
-        })
-    })
+    response.render('index')
 })
 
 app.get('/sign_up', (request, response) => {
     response.render('authenticate_user')
 })
 
-app.get('/privacypolicy', (request, response) =>{
+app.get('/privacypolicy', (request, response) => {
     response.render('privacypolicy')
 })
 
-app.get('/post_authentication/:token', (request, response) => {
+app.get('/sign_up/:token', (request, response) => {
 
     let token = request.params.token
     let user_profile = {};
@@ -35,13 +31,16 @@ app.get('/post_authentication/:token', (request, response) => {
             }
         }).then(response => response.json())
         .then(json => {
+
             let name = json.display_name
             let id = json.id
+            let images = json.images
 
             // Write user profile
             user_profile = {
                 "name": name,
                 "id": id,
+                "images": images,
                 "liked_songs": []
             }
 
@@ -71,41 +70,116 @@ app.get('/post_authentication/:token', (request, response) => {
                         })
                     })
 
-                    new UserHandler().write(user_profile)
-                    response.redirect(`/user/${user_profile["id"]}`)
+                    checkIfExist(user_profile['id']).then(result => {
+                        if (result == true) {
+                            response.render('existing_user', {
+                                user: user_profile
+                            })
+                        } else {
+                            new UserHandler().write(user_profile)
+                            response.redirect(`/user/${user_profile["id"]}`)
+                        }
+                    })
                 })
 
         })
 
 })
 
+app.get("/users", (request, response) => {
+    fs.readFile(__userdatadir, (err, data) => {
+        response.render('users', {
+            users: JSON.parse(data)
+        })
+    })
+})
+
+app.get("/sign_in", (request, response) => {
+    response.render("sign_in")
+})
+
+app.get("/sign_in/:token", (request, response) => {
+    let token = request.params.token
+    let user_profile = {};
+
+    // Get user details (name, id)
+    fetch("https://api.spotify.com/v1/me", {
+            headers: {
+                'Authorization': `Bearer ${token}`
+            }
+        }).then(response => response.json())
+        .then(json => {
+            let name = json.display_name
+            let id = json.id
+            let images = json.images;
+
+            // Write user profile
+            user_profile = {
+                "name": name,
+                "id": id,
+                "images": images,
+                "liked_songs": []
+            }
+
+            // Fetch liked songs
+            fetch("https://api.spotify.com/v1/me/tracks?limit=50", {
+                    method: "GET",
+                    headers: {
+                        "Authorization": `Bearer ${token}`
+                    }
+                }).then(response => response.json())
+                .then(json => {
+                    // Empty it first
+                    user_profile["liked_songs"] = []
+
+                    json.items.forEach(item => {
+                        let track_name = item.track.name
+                        let track_artist_name = item.track.artists[0].name
+                        let album_image = item.track.album.images[0].url
+                        let open_html_link = item.track.external_urls.spotify;
+
+                        // push to liked_songs
+                        user_profile["liked_songs"].push({
+                            "track_name": track_name,
+                            "track_artist_name": track_artist_name,
+                            "album_image": album_image,
+                            "open_html_link": open_html_link
+                        })
+                    })
+
+                    checkIfExist(user_profile['id']).then(result => {
+
+                        // User exists (update account)
+                        if (result == true) {
+                            new UserHandler().update(user_profile)
+                            response.redirect(`/user/${user_profile["id"]}`)
+                        } else {
+                            // Create a new user
+                            new UserHandler().write(user_profile)
+                            response.redirect(`/user/${user_profile["id"]}`)
+                        }
+                    })
+                })
+
+        })
+})
+
 app.get('/user/:id', (request, response) => {
 
     let id = request.params.id;
-    let compilation_id = []
     let user = {};
 
-    // Get data of the person id
-    fs.readFile(__userdatadir, (err, data) => {
-        let people = JSON.parse(data);
-
-        // Check if person exists
-        people.forEach((person, n) => {
-            compilation_id.push(person["id"])
-        })
-    })
-
-    setTimeout(() => {
-        if (compilation_id.includes(id)) {
+    compile_id().then(compiled => {
+        if (compiled.includes(id)) {
             // Set the user
-            let index = compilation_id.indexOf(id)
+            let index = compiled.indexOf(id)
 
             fs.readFile(__userdatadir, (err, data) => {
                 let people = JSON.parse(data);
                 user = people[index]
 
                 setTimeout(() => {
-                    response.render("user", {
+                    response.render("profile", {
                         user: user
                     })
                 }, 100);
@@ -113,63 +187,8 @@ app.get('/user/:id', (request, response) => {
         } else {
             response.render("no_user_found")
         }
-    }, 100);
-})
+    })
 
-app.get("/update", (request, response) => {
-
-    let token = request.query.token;
-    let id, liked_songs;
-
-    if (token) {
-        //Authenticated
-        // Update
-
-        // Get user details (name, id)
-        fetch("https://api.spotify.com/v1/me", {
-                headers: {
-                    'Authorization': `Bearer ${token}`
-                }
-            }).then(response => response.json())
-            .then(json => {
-                id = json.id
-
-                // Fetch liked songs
-                fetch("https://api.spotify.com/v1/me/tracks?limit=50", {
-                        method: "GET",
-                        headers: {
-                            "Authorization": `Bearer ${token}`
-                        }
-                    }).then(response => response.json())
-                    .then(json => {
-
-                        // Empty it first
-                        liked_songs = []
-
-                        json.items.forEach(item => {
-                            let track_name = item.track.name
-                            let track_artist_name = item.track.artists[0].name
-                            let album_image = item.track.album.images[0].url
-                            let open_html_link = item.track.external_urls.spotify;
-
-                            // push to liked_songs
-                            liked_songs.push({
-                                "track_name": track_name,
-                                "track_artist_name": track_artist_name,
-                                "album_image": album_image,
-                                "open_html_link": open_html_link
-                            })
-                        })
-
-                        new UserHandler().update(id, liked_songs)
-                        response.redirect(`/user/${id}`)
-                    })
-
-            })
-    } else {
-        response.render('authenticate_user_update')
-        response.end()
-    }
 })
 
 app.get("/api/view/all", (request, response) => {
@@ -178,96 +197,117 @@ app.get("/api/view/all", (request, response) => {
     })
 })
 
-if(process.env.IP && process.env.PORT){
+if (process.env.IP && process.env.PORT) {
     app.listen(process.env.PORT, () => {
         console.log(`Listening on server: ${process.env.IP}:${process.env.PORT}`)
     })
-}else{
+} else {
     app.listen(8080, () => {
         console.log(`Listening on: 127.0.0.1:8080`)
     })
+}
+
+let compile_id = async () => {
+    return new Promise((resolve, reject) => {
+        let compilation_id = []
+        // Read the file
+        fs.readFile(__userdatadir, (err, data) => {
+            let people = JSON.parse(data);
+
+            if (people.length > 0) {
+                // COMPILE ID
+                people.forEach(person => {
+                    // Push it to a variable
+                    compilation_id.push(person["id"])
+                })
+            }
+
+            resolve(compilation_id)
+        })
+    })
+}
+
+function checkIfExist(user_id) {
+    let isDuplicate = new Promise((resolve, reject) => {
+        compile_id().then(compiled => {
+            resolve(compiled.includes(user_id))
+        })
+    })
+
+    return isDuplicate
 }
 
 // functions creates, update users using the write function
 class UserHandler {
     write(user_profile) {
 
-        // How the program check for duplicates?
-        //  We compile all the ID first
-
         let id = user_profile["id"]
-        let isDuplicate = null;
-        let compilation_id = []
-        console.log(isDuplicate)
+        let current_write_data = [];
 
-        // Read the file
-        fs.readFile(__userdatadir, (err, data) => {
-            let people = JSON.parse(data);
+        let done_writing = new Promise((resolve, reject) => {
+            fs.readFile(__userdatadir, (err, data) => {
+                let people = JSON.parse(data)
 
-            // COMPILE ID
-            people.forEach(person => {
+                if (people.length > 0) {
+                    checkIfExist(id).then(result => {
+                        console.log(`Reulst! : ${result}`)
+                        if (result == false) {
+                            people.push(user_profile)
+                            current_write_data = people;
+                            resolve(true)
+                        } else {
+                            resolve(true)
+                        }
+                    })
+                } else {
+                    people.push(user_profile)
+                    current_write_data = people;
+                    resolve(true)
+                }
 
-                // Push it to a variable
-                compilation_id.push(person["id"])
             })
+        })
 
-            // If the compilation id includes the profile's id
-            if (compilation_id.includes(id)) {
+        done_writing.then(data => {
+            console.log(`Done Checking? ${data}`)
+            // Write the data
+            fs.writeFile(__userdatadir, JSON.stringify(current_write_data), (err) => {
+                if (err) console.log(err)
+            })
+        })
+    }
 
-                // Is duplicate - true
-                isDuplicate = true
-            } else {
+    update(user_profile) {
+        let id = user_profile["id"]
 
-                // Is duplicate - false
-                isDuplicate = false
-            }
+        let found = new Promise((resolve, reject) => {
+            compile_id().then(compiled => {
+                compiled.forEach((id, n) => {
+                    if (compiled[n] == id) {
+                        resolve(n)
+                    } else {
+                        reject(false)
+                    }
+                })
+            })
+        })
 
-            if (isDuplicate == false) {
-                people.push(user_profile)
-            }
+        let write_Data = new Promise((resolve, reject) => {
+            found.then(index => {
+                fs.readFile(__userdatadir, (err, data) => {
+                    let json = JSON.parse(data);
+                    json[index]["liked_songs"] = user_profile["liked_songs"]
+                    resolve(json)
+                })
+            })
+        })
 
-            console.log(`Users: ${people.length}`)
-            fs.writeFile(__userdatadir, JSON.stringify(people), (err) => {
+        write_Data.then(data => {
+            fs.writeFile(__userdatadir, JSON.stringify(data), (err) => {
                 if (err) console.log(err)
             })
         })
 
     }
 
-    update(id, liked_songs) {
-        // Check if person exist
-        let found = null;
-        let compilation_id = []
-        let index;
-
-        // Read the file
-        fs.readFile(__userdatadir, (err, data) => {
-            let people = JSON.parse(data);
-            // COMPILE ID
-            people.forEach(person => {
-                // Push it to a variable
-                compilation_id.push(person["id"])
-            })
-
-            // If the compilation id includes the profile's id
-            if (compilation_id.includes(id)) {
-                console.log("USER FOUND")
-                found = true
-            } else {
-                console.log("USER NOT FOUND")
-                found = false
-            }
-
-            index = compilation_id.indexOf(id)
-
-            // if y
-            if (found == true) {
-                people[index]["liked_songs"] = liked_songs
-            }
-
-            fs.writeFile(__userdatadir, JSON.stringify(people), (err) => {
-                if (err) console.log(err)
-            })
-        })
-    }
 }

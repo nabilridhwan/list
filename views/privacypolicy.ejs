@@ -3,22 +3,48 @@
 </head>
 
 <body>
-    <h1>Spotifier's Privacy Policy</h1>
-    <h6>By using this service, you agree to the privacy policy!</h6>
 
-    <h2>Data Collection</h2>
-    <p>By using this service, the program needs to collect some data for the program to work. The data collected are your:
-    </p>
+    <% include ./partials/navbar %>
 
-    <ol>
-        <li>Spotify's username and display name (It is not your email)</li>
-        <li>Spotify's user id (A random identifier string which is tied to your account)</li>
-        <li>Spotify's liked songs (50 of the latest liked songs)</li>
-    </ol>
+    <section class="hero is-primary">
+        <div class="hero-body">
+            <div class="container">
+                <h1 class="title">
+                    Spotifier's Privacy Policy
+                </h1>
+                <h2 class="subtitle">
+                    Information on how Spotifier collects your data
+                </h2>
 
-    <h2>How does the program process my data?</h2>
-    <p>When you use our service, the program automatically creates a user profile based on your name, id and liked songs! The name is used to display when you visit the user page while the id is used so that there is no duplicates of spotify accounts on the server and the liked songs is used to display to the public.</p>
+            </div>
+        </div>
+    </section>
 
-    <h2><a href="/">By signing up, you agree to the Privacy Policy</a></h2>
+    <div class="container is-fluid">
+
+        <section class="section">
+            <h2 class="title">Data Collection</h2>
+            <p class="subtitle">By using this service, Spotifier needs to collect some data for it to work.
+                The data collected are
+                your:
+            </p>
+
+            <ol>
+                <li>Spotify's username and display name (It is not your email)</li>
+                <li>Spotify's user id (A random identifier string which is tied to your account)</li>
+                <li>Spotify's liked songs (50 of the latest liked songs)</li>
+            </ol>
+
+        </section>
+
+
+        <section class="section">
+            <h2 class="title">How does Spotifier process my data?</h2>
+            <p>When you use our service, Spotifier automatically creates a user profile based on your
+                name, id and liked
+                songs! The name is used to display when you visit the user page while the id is used so that there is no
+                duplicates of spotify accounts on the server and the liked songs is used to display to the public.</p>
+        </section>
+    </div>
 
 </body>

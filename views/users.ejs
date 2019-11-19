@@ -1,0 +1,52 @@
+<head>
+    <% include ./partials/styles %>
+</head>
+
+<body>
+
+    <% include ./partials/navbar %>
+
+    <section class="hero is-primary">
+        <div class="hero-body">
+            <div class="container">
+                <h1 class="title">
+                    Ooo... It's the users page!
+                </h1>
+                <h2 class="subtitle">
+                    And... we have <%= users.length %> user(s)
+                </h2>
+
+            </div>
+        </div>
+    </section>
+
+    <section class="section">
+        <div class="container is-fluid">
+            <% users.forEach((user) => { %>
+            <article class="media">
+
+                
+
+                <figure class="media-left">
+                    <p class="image is-64x64">
+                        <img src="https://toppng.com/public/uploads/preview/instagram-default-profile-picture-11562973083brycehrmyv.png">
+                    </p>
+                </figure>
+
+                <div class="media-content">
+                    <div class="content">
+                        <p>
+                            <strong>@<%= user['name'] %></strong>
+                            <br>
+                            User ID: <strong><%= user['id'] %></strong>
+                            <br>
+                            <a href="/user/<%= user['id'] %>">See their List</a>
+                        </p>
+                    </div>
+
+                </div>
+            </article>
+            <% }) %>
+        </div>
+    </section>
+</body>
