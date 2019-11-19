@@ -70,16 +70,43 @@ app.get('/sign_up/:token', (request, response) => {
                         })
                     })
 
-                    checkIfExist(user_profile['id']).then(result => {
-                        if (result == true) {
-                            response.render('existing_user', {
-                                user: user_profile
+                    fetch("https://api.spotify.com/v1/me/player/recently-played?limit=50", {
+                            method: "GET",
+                            headers: {
+                                "Authorization": `Bearer ${token}`
+                            }
+                        }).then(response => response.json())
+                        .then(json => {
+                            // Empty it first
+                            user_profile["liked_songs"] = []
+
+                            json.items.forEach(item => {
+                                let track_name = item.track.name
+                                let track_artist_name = item.track.artists[0].name
+                                let album_image = item.track.album.images[0].url
+                                let open_html_link = item.track.external_urls.spotify;
+
+                                // push to liked_songs
+                                user_profile["recently_played"].push({
+                                    "track_name": track_name,
+                                    "track_artist_name": track_artist_name,
+                                    "album_image": album_image,
+                                    "open_html_link": open_html_link
+                                })
                             })
-                        } else {
-                            new UserHandler().write(user_profile)
-                            response.redirect(`/user/${user_profile["id"]}`)
-                        }
-                    })
+
+                            checkIfExist(user_profile['id']).then(result => {
+                                if (result == true) {
+                                    response.render('existing_user', {
+                                        user: user_profile
+                                    })
+                                } else {
+                                    new UserHandler().write(user_profile)
+                                    response.redirect(`/user/${user_profile["id"]}`)
+                                }
+                            })
+                        })
+
                 })
 
         })
@@ -118,7 +145,8 @@ app.get("/sign_in/:token", (request, response) => {
                 "name": name,
                 "id": id,
                 "images": images,
-                "liked_songs": []
+                "liked_songs": [],
+                "recently_played": []
             }
 
             // Fetch liked songs
@@ -131,6 +159,7 @@ app.get("/sign_in/:token", (request, response) => {
                 .then(json => {
                     // Empty it first
                     user_profile["liked_songs"] = []
+                    user_profile["recently_played"] = []
 
                     json.items.forEach(item => {
                         let track_name = item.track.name
@@ -147,18 +176,47 @@ app.get("/sign_in/:token", (request, response) => {
                         })
                     })
 
-                    checkIfExist(user_profile['id']).then(result => {
+                    fetch("https://api.spotify.com/v1/me/player/recently-played?limit=50", {
+                            method: "GET",
+                            headers: {
+                                "Authorization": `Bearer ${token}`
+                            }
+                        }).then(response => {
+                            console.log(response)
+                            return response.json()
+                        })
+                        .then(json => {
+                            // Empty it first
+                            user_profile["recently_played"] = []
 
-                        // User exists (update account)
-                        if (result == true) {
-                            new UserHandler().update(user_profile)
-                            response.redirect(`/user/${user_profile["id"]}`)
-                        } else {
-                            // Create a new user
-                            new UserHandler().write(user_profile)
-                            response.redirect(`/user/${user_profile["id"]}`)
-                        }
-                    })
+                            json.items.forEach(item => {
+                                let track_name = item.track.name
+                                let track_artist_name = item.track.artists[0].name
+                                let album_image = item.track.album.images[0].url
+                                let open_html_link = item.track.external_urls.spotify;
+
+                                // push to liked_songs
+                                user_profile["recently_played"].push({
+                                    "track_name": track_name,
+                                    "track_artist_name": track_artist_name,
+                                    "album_image": album_image,
+                                    "open_html_link": open_html_link
+                                })
+                            })
+
+                            checkIfExist(user_profile['id']).then(result => {
+
+                                // User exists (update account)
+                                if (result == true) {
+                                    new UserHandler().update(user_profile)
+                                    response.redirect(`/user/${user_profile["id"]}`)
+                                } else {
+                                    // Create a new user
+                                    new UserHandler().write(user_profile)
+                                    response.redirect(`/user/${user_profile["id"]}`)
+                                }
+                            })
+                        })
                 })
 
         })
@@ -177,8 +235,6 @@ app.get('/user/:id', (request, response) => {
             fs.readFile(__userdatadir, (err, data) => {
                 let people = JSON.parse(data);
                 user = people[index]
-
-                console.log(user)
 
                 setTimeout(() => {
                     response.render("profile", {
@@ -299,6 +355,7 @@ class UserHandler {
                 fs.readFile(__userdatadir, (err, data) => {
                     let json = JSON.parse(data);
                     json[index]["liked_songs"] = user_profile["liked_songs"]
+                    json[index]["recently_played"] = user_profile["recently_played"]
                     resolve(json)
                 })
             })
