@@ -1,3 +1,6 @@
+# List v1.0.2
+-   Added a 'Latest User' section on the home page.
+
 # List v1.0.1
 -   [Server-side] When running the NodeJS application. An argument is needed to be passed in order for the program to run. The argument needs to point to the JSON file containing the user data. So, instead of running like this: `node index.js`, its instead like this: `node index.js ./users_data.json`
 
