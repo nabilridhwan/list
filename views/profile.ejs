@@ -18,7 +18,7 @@
                 </h2>
 
                 <a class="button is-primary"
-                    href="<%=user["liked_songs"][Math.round(Math.random()*49)]["open_html_link"]%>">
+                    href="<%=user["liked_songs"][Math.round(Math.random() * user["liked_songs"].length)]["open_html_link"]%>">
                     <strong>Pick a random song!</strong>
                 </a>
             </div>
