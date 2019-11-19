@@ -263,7 +263,7 @@ app.get("/api", (request, response) => {
     })
 })
 
-if (process.env.IP && process.env.PORT) {
+if (process.env.IP || process.env.PORT) {
     app.listen(process.env.PORT, () => {
         console.log(`Listening on server: ${process.env.IP}:${process.env.PORT}`)
     })
