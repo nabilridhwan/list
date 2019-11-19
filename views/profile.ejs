@@ -8,22 +8,23 @@
 
     <section class="hero is-primary">
         <div class="hero-body">
-            <div class="container">
+            <div class="container is-fluid">
                 <h1 class="title">
                     <%=user["name"]%>'s List
                 </h1>
-                <h2 class="subtitle">
+                <h2 class="subtitle is-4">
                     This profile's User ID is <strong><%=user["id"]%></strong>. Songs not updating? <a
                         href="/sign_in">Sign In!</a>
                 </h2>
+
+                <a class="button is-warning" href="<%=user["liked_songs"][Math.round(Math.random()*49)]["open_html_link"]%>" >
+                    <strong>Pick a random song!</strong>
+                </a>
             </div>
         </div>
     </section>
 
     <section class="section">
-        <div class="columns">
-
-            <div class="column">
                 <div class="container is-fluid">
                     <h1 class="title">Liked Songs</h1>
                     <!-- Checking if empty or not -->
@@ -54,40 +55,6 @@
                     <h1><%=user["name"]%>'s Profile</h1>
                     <p><%=user["name"]%> has no liked songs as of now :(</p>
                     <% } %>
-                </div>
-            </div>
-
-            <div class="column">
-                <% if(user["recently_played"]){ %>
-                <h1 class="title">Recently Played Songs</h1>
-
-                <% user["recently_played"].forEach(song => { %>
-                <article class="media">
-                    <figure class="media-left">
-                        <p class="image is-64x64">
-                            <img src="<%= song['album_image'] %>">
-                        </p>
-                    </figure>
-                    <div class="media-content">
-                        <div class="content">
-                            <p>
-                                <strong><a href="<%= song['open_html_link'] %>"
-                                        target="_blank"><%= song['track_name'] %></a></strong>
-                                <br>
-                                By <%= song['track_artist_name'] %>
-                            </p>
-                        </div>
-
-                    </div>
-                </article>
-                <% }) %>
-
-                <% }else{ %>
-                <h1 class="title">Recently Played Songs</h1>
-                <p class="subtitle">This profile has not played any songs yet!</p>
-                <% } %>
-            </div>
-
         </div>
     </section>
 

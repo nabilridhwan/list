@@ -8,7 +8,7 @@
 
     <section class="hero is-primary">
         <div class="hero-body">
-            <div class="container">
+            <div class="container is-fluid">
                 <h1 class="title">
                     Ooo... It's the users page!
                 </h1>
@@ -35,7 +35,7 @@
                         </p>
                     <% }else{ %>
                         <p class="image is-64x64">
-                            <img src="https://toppng.com/public/uploads/preview/instagram-default-profile-picture-11562973083brycehrmyv.png">
+                            <img src="https://procurement.unl.edu/images/staff-photos/y_u_no_photo_Square.png">
                         </p>
                     <% }%>
 
@@ -47,11 +47,20 @@
                             <strong><%= user['name'] %></strong>
                             @<%= user['name'].replace(" ", "").toLowerCase() %>
                             <br>
-                            User ID: <strong><%= user['id'] %></strong>
+                            ID: <%= user['id'] %>
 
                             <br>
 
                             <a href="/user/<%= user['id'] %>">See their List</a>
+
+                            <br>
+                            <br>
+
+                            <strong>Latest liked song</strong>
+
+                            <br>
+
+                            <a href="<%= user['liked_songs'][0]['open_html_link']%>"><%= user['liked_songs'][0]['track_name']%> by <%= user['liked_songs'][0]['track_artist_name']%></a>
                         </p>
                     </div>
 
