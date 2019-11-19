@@ -83,7 +83,7 @@ app.get('/sign_up/:token', (request, response) => {
                         }).then(response => response.json())
                         .then(json => {
                             // Empty it first
-                            user_profile["liked_songs"] = []
+                            user_profile["recently_played"] = []
 
                             json.items.forEach(item => {
                                 let track_name = item.track.name
