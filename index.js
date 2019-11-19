@@ -3,7 +3,7 @@ const fetch = require('node-fetch');
 const app = express();
 const fs = require('fs');
 
-const __userdatadir = "./users_data.json"
+const __userdatadir = process.argv[2]
 
 app.set('view engine', 'ejs');
 
