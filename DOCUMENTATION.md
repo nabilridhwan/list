@@ -18,4 +18,4 @@
 
 4.  Make a PR. A good one. Imagine that you are the one reviewing, its good to know what you have modified or deleted.
 
-5.  Run the server by `node index.js {PATH_TO_USER_DATA_JSON}`
+5.  Run the server by `node index.js`

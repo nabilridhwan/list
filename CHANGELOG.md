@@ -1,3 +1,7 @@
+# List v1.0.3
+-   Added support for hosting on Heroku
+-   When cloning, `users_data.json` will contain `[]`. Now users run the server just by running `node index.js`
+
 # List v1.0.2
 -   Added a 'Latest User' section on the home page.
 
