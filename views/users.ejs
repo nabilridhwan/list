@@ -25,8 +25,6 @@
             <% users.forEach((user) => { %>
             <article class="media">
 
-
-
                 <figure class="media-left">
 
                     <% if(user['images'].length > 0){ %>
@@ -44,16 +42,11 @@
                 <div class="media-content">
                     <div class="content">
                         <p>
-                            <strong><%= user['name'] %></strong>
+
+                            <a href="/user/<%= user['id'] %>"><strong><%= user['name'] %></strong></a>
+
                             @<%= user['name'].replace(" ", "").toLowerCase() %>
-                            <br>
-                            ID: <%= user['id'] %>
 
-                            <br>
-
-                            <a href="/user/<%= user['id'] %>">See their List</a>
-
-                            <br>
                             <br>
 
                             <strong>Latest liked song</strong>

@@ -61,16 +61,11 @@
                             <div class="media-content">
                                 <div class="content">
                                     <p>
-                                        <strong><%= user[user.length - 1]['name'] %></strong>
+
+                                        <a href="/user/<%= user[user.length - 1]['id'] %>"><strong><%= user[user.length - 1]['name'] %></strong></a>
+
                                         @<%= user[user.length - 1]['name'].replace(" ", "").toLowerCase() %>
-                                        <br>
-                                        ID: <%= user[user.length - 1]['id'] %>
 
-                                        <br>
-
-                                        <a href="/user/<%= user[user.length - 1]['id'] %>">See their List</a>
-
-                                        <br>
                                         <br>
 
                                         <strong>Latest liked song</strong>
