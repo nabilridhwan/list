@@ -48,9 +48,10 @@
 
             <% }else{ %>
             <h1><%=user["name"]%>'s Profile</h1>
-            <% include ./partials/update_signup_a %>
             <p><%=user["name"]%> has no liked songs as of now :(</p>
             <% } %>
         </div>
     </section>
+
+    <% include ./partials/footer %>
 </body>

@@ -7,7 +7,7 @@
     <% include ./partials/navbar %>
 
 
-    <section class="hero is-primary is-fullheight-with-navbar">
+    <section class="hero is-primary is-large">
         <div class="hero-body">
             <div class="container">
                 <h1 class="title">
@@ -36,14 +36,7 @@
         </div>
     </section>
 
-    <footer class="footer">
-      <div class="content has-text-centered">
-        <p>
-          <strong>Spotifier</strong> by <a href="https://nabilridhwan.github.io">Nabil</a>. The source code is
-          <a href="https://github.com/nabilridhwan/spotifier">open sourced</a>.
-        </p>
-      </div>
-    </footer>
+    <% include ./partials/footer %>
 
     <script>
         function authorise_user(client_id, redirect_uri, show_dialog, scope) {
