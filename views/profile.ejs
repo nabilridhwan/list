@@ -13,7 +13,7 @@
                     <%=user["name"]%>'s favourite songs
                 </h1>
                 <h2 class="subtitle">
-                    This profile's User ID is <strong><%=user["id"]%></strong>
+                    This profile's User ID is <strong><%=user["id"]%></strong>. Songs not updating? <a href="/sign_in">Sign In!</a>
                 </h2>
             </div>
         </div>
@@ -37,7 +37,7 @@
                             <br>
                             By <%= song['track_artist_name'] %>
                             <br>
-                            <a href="<%= song['open_html_link'] %>">Open In Spotify</a>
+                            <a href="<%= song['open_html_link'] %>" target="_blank">Open In Spotify</a>
                         </p>
                     </div>
 

@@ -178,6 +178,8 @@ app.get('/user/:id', (request, response) => {
                 let people = JSON.parse(data);
                 user = people[index]
 
+                console.log(user)
+
                 setTimeout(() => {
                     response.render("profile", {
                         user: user

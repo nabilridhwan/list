@@ -13,7 +13,7 @@
                     Ooo... It's the users page!
                 </h1>
                 <h2 class="subtitle">
-                    And... we have <%= users.length %> user(s)
+                    And... we have <%= users.length %> user(s). Currently, live-changes are happening. I am currently maintaining this over the cloud! (If you face any errors, please refresh the page)
                 </h2>
 
             </div>
@@ -25,22 +25,33 @@
             <% users.forEach((user) => { %>
             <article class="media">
 
-                
+
 
                 <figure class="media-left">
-                    <p class="image is-64x64">
-                        <img src="https://toppng.com/public/uploads/preview/instagram-default-profile-picture-11562973083brycehrmyv.png">
-                    </p>
+
+                    <% if(user['images'].length > 0){ %>
+                        <p class="image is-64x64">
+                            <img src="<%=user['images'][0]['url']%>">
+                        </p>
+                    <% }else{ %>
+                        <p class="image is-64x64">
+                            <img src="https://toppng.com/public/uploads/preview/instagram-default-profile-picture-11562973083brycehrmyv.png">
+                        </p>
+                    <% }%>
+
                 </figure>
 
                 <div class="media-content">
                     <div class="content">
                         <p>
-                            <strong>@<%= user['name'] %></strong>
+                            <strong><%= user['name'] %></strong>
+                            @<%= user['name'].replace(" ", "").toLowerCase() %>
                             <br>
                             User ID: <strong><%= user['id'] %></strong>
+
                             <br>
-                            <a href="/user/<%= user['id'] %>">See their List</a>
+
+                            <a class="button is-primary is-small" href="/user/<%= user['id'] %>">See their List</a>
                         </p>
                     </div>
 
