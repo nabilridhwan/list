@@ -8,7 +8,11 @@ const __userdatadir = process.argv[2]
 app.set('view engine', 'ejs');
 
 app.get('/', (request, response) => {
-    response.render('index')
+    fs.readFile(__userdatadir, (err, data) => {
+        response.render('index', {
+            user: JSON.parse(data)
+        })
+    })
 })
 
 app.get('/sign_up', (request, response) => {

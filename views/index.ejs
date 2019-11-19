@@ -10,29 +10,84 @@
     <section class="hero is-dark">
         <div class="hero-body">
             <div class="container is-fluid">
-                <h1 class="title">
-                    List for Spotify
-                </h1>
-                <h2 class="subtitle">
-                    A social media platform focused on sharing your (Spotify's) Liked Songs list.
-                </h2>
 
                 <div class="columns">
 
                     <div class="column">
-                        <a class="button is-primary" href="/users">
-                            <strong>See all users!</strong>
-                        </a>
-                        <a class="button is-light" href="/sign_up">Sign Up!</a>
+                        <h1 class="title">
+                            List for Spotify
+                        </h1>
+                        <h2 class="subtitle">
+                            A social media platform focused on sharing your (Spotify's) Liked Songs list.
+                        </h2>
 
-                        <br>
-                        <br>
+                        <div class="columns">
 
-                        <h6 class="subtitle">By signing up, you agree to the <a href="/privacypolicy">privacy policy</a>
-                        </h6>
+                            <div class="column">
+                                <a class="button is-primary" href="/users">
+                                    <strong>See all users!</strong>
+                                </a>
+                                <a class="button is-light" href="/sign_up">Sign Up!</a>
 
+                                <br>
+                                <br>
+
+                                <h6 class="subtitle">By signing up, you agree to the <a href="/privacypolicy">privacy
+                                        policy</a>
+                                </h6>
+
+                            </div>
+                        </div>
                     </div>
+
+                    <div class="column">
+                        <h1 class="title">Latest User</h1>
+
+                        <article class="media">
+                            <figure class="media-left">
+
+                                <% if(user[user.length - 1]['images'].length > 0){ %>
+                                <p class="image is-64x64">
+                                    <img src="<%=user[user.length - 1]['images'][0]['url']%>">
+                                </p>
+                                <% }else{ %>
+                                <p class="image is-64x64">
+                                    <img src="https://procurement.unl.edu/images/staff-photos/y_u_no_photo_Square.png">
+                                </p>
+                                <% }%>
+
+                            </figure>
+
+                            <div class="media-content">
+                                <div class="content">
+                                    <p>
+                                        <strong><%= user[user.length - 1]['name'] %></strong>
+                                        @<%= user[user.length - 1]['name'].replace(" ", "").toLowerCase() %>
+                                        <br>
+                                        ID: <%= user[user.length - 1]['id'] %>
+
+                                        <br>
+
+                                        <a href="/user/<%= user[user.length - 1]['id'] %>">See their List</a>
+
+                                        <br>
+                                        <br>
+
+                                        <strong>Latest liked song</strong>
+
+                                        <br>
+
+                                        <a href="<%= user[user.length - 1]['liked_songs'][0]['open_html_link']%>"><%= user[user.length - 1]['liked_songs'][0]['track_name']%>
+                                            by <%= user[user.length - 1]['liked_songs'][0]['track_artist_name']%></a>
+                                    </p>
+                                </div>
+
+                            </div>
+                        </article>
+                    </div>
+
                 </div>
+
             </div>
         </div>
     </section>
