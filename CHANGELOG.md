@@ -1,7 +1,20 @@
-# v2.0.1
+# List v1.0.1
+-   [Server-side] When running the NodeJS application. An argument is needed to be passed in order for the program to run. The argument needs to point to the JSON file containing the user data. So, instead of running like this: `node index.js`, its instead like this: `node index.js ./users_data.json`
+
+# List v1.0.0
+-   Rebrand of Spotifier to List for Spotify, as in Liked Songs `List`.
+-   Implemented Dark Mode.
+-   Updated the Privacy Policy page.
+-   Added a FAQ Page.
+-   The Users page will now show the `Latest liked song` for the user.
+-   The profile page has a new button `Pick a random song!` which would open a random song from the user's list.
+-   On desktop, the user's profile page will be split into two columns allowing for more contents to fit on the screen.
+-   List is now protected by the `GNU Affero General Public License`
+
+# Spotifier v2.0.1
 -	Updated the homepage
 
-# v2.0.0
+# Spotifier v2.0.0 (Open Beta)
 -   Revamped user interface
 -   New data collection: User's profile image
 -   Removed `/update` endpoint. Profile automatically updates upon signing in
@@ -9,3 +22,6 @@
 -   Removed redundant templating files
 -   Revised all endpoints
 -   Revised all functions (faster loading times) by implementing Promises when possible.
+
+# Spotifier v1.0.0 (Internal Beta)
+-   Initial function of Spotifier is working.
