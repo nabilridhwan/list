@@ -45,7 +45,8 @@ app.get('/sign_up/:token', (request, response) => {
                 "name": name,
                 "id": id,
                 "images": images,
-                "liked_songs": []
+                "liked_songs": [],
+                "recently_played": []
             }
 
             // Fetch liked songs
