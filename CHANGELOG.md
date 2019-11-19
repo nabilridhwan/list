@@ -1,3 +1,6 @@
+# v2.0.1
+-	Updated the homepage
+
 # v2.0.0
 -   Revamped user interface
 -   New data collection: User's profile image
