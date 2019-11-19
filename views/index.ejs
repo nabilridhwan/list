@@ -41,12 +41,13 @@
                     </div>
 
                     <div class="column">
-                        <h1 class="title">Latest User</h1>
 
+                        <% if(user.length !== 0){ %>
+                        <h1 class="title">Latest User</h1>
                         <article class="media">
                             <figure class="media-left">
 
-                                <% if(user.length !== 0){ %>
+                                <% if(user[user.length - 1]['images'].length > 0){ %>
                                 <p class="image is-64x64">
                                     <img src="<%=user[user.length - 1]['images'][0]['url']%>">
                                 </p>
@@ -62,7 +63,8 @@
                                 <div class="content">
                                     <p>
 
-                                        <a href="/user/<%= user[user.length - 1]['id'] %>"><strong><%= user[user.length - 1]['name'] %></strong></a>
+                                        <a
+                                            href="/user/<%= user[user.length - 1]['id'] %>"><strong><%= user[user.length - 1]['name'] %></strong></a>
 
                                         @<%= user[user.length - 1]['name'].replace(" ", "").toLowerCase() %>
 
@@ -79,6 +81,9 @@
 
                             </div>
                         </article>
+
+                        <% } %>
+
                     </div>
 
                 </div>
