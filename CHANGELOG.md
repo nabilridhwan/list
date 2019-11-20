@@ -1,3 +1,6 @@
+# List v1.0.5 (c9io-hosting)
+-   Updated relevant information for c9.io hosting
+
 # List v1.0.5-beta_1
 -   Updated Navbar
 
