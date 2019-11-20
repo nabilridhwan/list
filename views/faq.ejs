@@ -31,17 +31,11 @@
             </p>
         </section>
 
-
         <section class="section">
-            <h2 class="title">Why is the bar at the top colored red</h2>
-            <p>I know, it's supposed to be flashy to attract attention. Anyway, the bar is colored red when the
-                developer is making changes to List in realtime. Meaning to say, if you encounter inconsistent User
-                Interface or any type of error, Please try again later or try to refresh the page again.</p>
-        </section>
-
-        <section class="section">
-            <h2 class="title">Some of my data is missing!</h2>
-            <p>There might be multiple reasons why this could happen. However it is most likely that while the developer was editing the database manually, the data may be messed up. Stay calm and Sign In again... However if it persist, it's on Spotify's side!</p>
+            <h2 class="title">My data is missing!</h2>
+            <p>
+                List for Spotify uses Heroku as its preferred hosting platform but due to Heroku's nature, everytime a new update is pushed, Heroku uses the default files included in the Repository. Since List's repository contain a default blank database JSON file, Heroku uses that and discards its current state of the database. Due to this, List is going back to <a href="https://github.com/nabilridhwan/list/issues/7">Beta</a>
+            </p>
         </section>
     </div>
 
