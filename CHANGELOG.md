@@ -1,3 +1,6 @@
+# List v1.0.5-beta_1
+-   Updated Navbar
+
 # List v1.0.5-beta
 -	Updated footer
 -	Revert back to Vanilla theme
