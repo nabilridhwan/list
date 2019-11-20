@@ -1,3 +1,9 @@
+# List v1.0.5-beta
+-	Updated footer
+-	Revert back to Vanilla theme
+-	Updated FAQ page
+-	Changed to Beta state
+
 # List v1.0.4
 -   Fixed `Randomizer` button issue that causes an `Internal Server Error`
 -   Added a function that creates a `user_profile` object using the token (cleaner codebase).
