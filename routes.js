@@ -1,13 +1,12 @@
-const express = require('express');
+const { Router } = require('express');
 const fetch = require('node-fetch');
-const app = express();
 const fs = require('fs');
+
+const routers = new Router();
 
 const __userdatadir = "./users_data.json"
 
-app.set('view engine', 'ejs');
-
-app.get('/', (request, response) => {
+routers.get('/', (request, response) => {
     fs.readFile(__userdatadir, (err, data) => {
         response.render('index', {
             user: JSON.parse(data)
@@ -15,11 +14,11 @@ app.get('/', (request, response) => {
     })
 })
 
-app.get('/sign_up', (request, response) => {
+routers.get('/sign_up', (request, response) => {
     response.render('authenticate_user')
 })
 
-app.get('/sign_up/:token', (request, response) => {
+routers.get('/sign_up/:token', (request, response) => {
 
     let token = request.params.token
 
@@ -41,7 +40,7 @@ app.get('/sign_up/:token', (request, response) => {
     })
 })
 
-app.get("/users", (request, response) => {
+routers.get("/users", (request, response) => {
     fs.readFile(__userdatadir, (err, data) => {
         response.render('users', {
             users: JSON.parse(data)
@@ -49,11 +48,11 @@ app.get("/users", (request, response) => {
     })
 })
 
-app.get("/sign_in", (request, response) => {
+routers.get("/sign_in", (request, response) => {
     response.render("sign_in")
 })
 
-app.get("/sign_in/:token", (request, response) => {
+routers.get("/sign_in/:token", (request, response) => {
     let token = request.params.token
 
     // Get user profile
@@ -72,7 +71,7 @@ app.get("/sign_in/:token", (request, response) => {
     })
 })
 
-app.get('/user/:id', (request, response) => {
+routers.get('/user/:id', (request, response) => {
     let id = request.params.id;
 
     compile_id().then(compiled => {
@@ -99,29 +98,21 @@ app.get('/user/:id', (request, response) => {
     })
 })
 
-app.get('/privacypolicy', (request, response) => {
+routers.get('/privacypolicy', (request, response) => {
     response.render('privacypolicy')
 })
 
-app.get('/faq', (request, response) => {
+routers.get('/faq', (request, response) => {
     response.render('faq')
 })
 
-app.get("/api", (request, response) => {
+routers.get("/api", (request, response) => {
     fs.readFile(__userdatadir, (err, data) => {
         response.send(JSON.parse(data));
     })
 })
 
-if (process.env.IP || process.env.PORT) {
-    app.listen(process.env.PORT, () => {
-        console.log(`Listening on port ${process.env.PORT}`)
-    })
-} else {
-    app.listen(8080, () => {
-        console.log(`[LOCALLY] Listening on: 127.0.0.1:8080`)
-    })
-}
+
 
 // Function to compile all IDs
 let compile_id = async () => {
@@ -336,3 +327,5 @@ class UserHandler {
     }
 
 }
+
+module.exports = routers;
